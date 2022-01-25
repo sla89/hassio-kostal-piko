@@ -1,0 +1,1 @@
+"""The Kostal PIKO component."""

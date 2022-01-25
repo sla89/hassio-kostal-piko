@@ -1,0 +1,81 @@
+{
+  # total DC input (W)
+  { dxsId: 33556736, value: 7084.690918 },
+  # operation state - not mapped in code
+  #0 = off
+  #1 = idle (?)
+  #2 = starting but DC current too low (?)
+  #3 = injecting (MPP)
+  #4 = injecting (limited)
+  { dxsId: 16780032, value: 3 },
+
+  "dc_input1": {
+      # Current (A)
+      { dxsId: 33555201, value: 3.863922 },
+      # Voltage (V)
+      { dxsId: 33555202, value: 737.653503 },
+      # Power (kW)
+      { dxsId: 33555203, value: 2849.636475 },
+    },
+  "dc_input2": {
+      # Current (A)
+      { dxsId: 33555457, value: 4.961382 },
+      # Voltage (V)
+      { dxsId: 33555458, value: 745.806763 },
+      # Power (kW)
+      { dxsId: 33555459, value: 3699.952148 },
+    },
+  "dc_input3": {
+      # Current (A)
+      { dxsId: 33555713, value: 1.184482 },
+      # Voltage (V)
+      { dxsId: 33555714, value: 510.796875 },
+      # Power (kW)
+      { dxsId: 33555715, value: 604.519165 },
+    },
+
+  "grid parameters": {
+      # output power (kW)
+      { dxsId: 67109120, value: 6851.743164 },
+      # frequency (Hz)
+      { dxsId: 67110400, value: 49.996948 },
+      # Cos pi - not mapped in code
+      { dxsId: 67110656, value: 1 },
+      # limitation - not mapped in code
+      { dxsId: 67110144, value: 100 },
+    },
+  "phase1": {
+      # current (A)
+      { dxsId: 67109377, value: 9.970093 },
+      # voltage (V)
+      { dxsId: 67109378, value: 231.085876 },
+      # power (kw)
+      { dxsId: 67109379, value: 2279.586914 },
+    },
+  "phase2": {
+      # current
+      { dxsId: 67109633, value: 9.963989 },
+      # voltage
+      { dxsId: 67109634, value: 229.602386 },
+      # power
+      { dxsId: 67109635, value: 2262.42627 },
+    },
+  "phase3":
+    {
+      # current
+      { dxsId: 67109889, value: 10.031128 },
+      # voltage
+      { dxsId: 67109890, value: 232.654144 },
+      # power
+      { dxsId: 67109891, value: 2309.730225 },
+    },
+
+  # yield day (kWh)
+  { dxsId: 251658754, value: 21482.984375 },
+  # yield total (Wh)
+  { dxsId: 251658753, value: 29.068207 },
+
+
+  # operation time - not mapped in code
+  { dxsId: 251658496, value: 10 },
+}
