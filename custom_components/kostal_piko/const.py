@@ -4,8 +4,9 @@ from homeassistant.components.sensor import (SensorDeviceClass,
                                              SensorStateClass)
 
 from homeassistant.const import (ENERGY_KILO_WATT_HOUR, POWER_WATT,
-                                 ELECTRIC_POTENTIAL_VOLT, POWER_KILO_WATT,
-                                 ELECTRIC_CURRENT_AMPERE, FREQUENCY_HERTZ)
+                                 ELECTRIC_POTENTIAL_VOLT, TIME_HOURS,
+                                 PERCENTAGE, ELECTRIC_CURRENT_AMPERE,
+                                 FREQUENCY_HERTZ)
 
 
 class KostalPikoSensorEntityDescription():
@@ -20,6 +21,7 @@ class KostalPikoSensorEntityDescription():
 
 
 SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
+    # Current DC Input total
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
             key="kostal_piko_total_dc_input",
@@ -29,6 +31,30 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:solar-panel"),
         dxs_id=33556736,
+    ),
+
+    # Current Grid output
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_grid_output_power",
+            name="Kostal PIKO Grid Output Power",
+            device_class=SensorDeviceClass.POWER,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=POWER_WATT,
+            icon="mdi:solar-power"),
+        dxs_id=67109120,
+    ),
+
+    # Current self consumption
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_current_self_consumption",
+            name="Kostal PIKO Current Self Consumption",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=POWER_WATT,
+            icon="mdi:power-plug"),
+        dxs_id=83888128,
     ),
 
     # DC Input 1 sensors
@@ -58,7 +84,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             name="Kostal PIKO DC Input 1 Power",
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_KILO_WATT,
+            native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=33555203,
     ),
@@ -90,7 +116,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             name="Kostal PIKO DC Input 2 Power",
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_KILO_WATT,
+            native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=33555459,
     ),
@@ -122,22 +148,12 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             name="Kostal PIKO DC Input 3 Power",
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_KILO_WATT,
+            native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=33555715,
     ),
 
-    # Grid parameters
-    KostalPikoSensorEntityDescription(
-        description=SensorEntityDescription(
-            key="kostal_piko_grid_output_power",
-            name="Kostal PIKO Grid Output Power",
-            device_class=SensorDeviceClass.POWER,
-            state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_WATT,
-            icon="mdi:solar-power"),
-        dxs_id=67109120,
-    ),
+    # Grid frequency
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
             key="kostal_piko_grid_frequency",
@@ -176,7 +192,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             name="Kostal PIKO Phase 1 Power",
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_KILO_WATT,
+            native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=67109379,
     ),
@@ -208,7 +224,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             name="Kostal PIKO Phase 2 Power",
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_KILO_WATT,
+            native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=67109635,
     ),
@@ -240,7 +256,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             name="Kostal PIKO Phase 3 Power",
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_KILO_WATT,
+            native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=67109891,
     ),
@@ -248,8 +264,8 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
     # Yield Day
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
-            key="kostal_yield_month",
-            name="Kostal PIKO Yield Month",
+            key="kostal_piko_yield_day",
+            name="Kostal PIKO Yield Day",
             device_class=SensorDeviceClass.ENERGY,
             state_class=SensorStateClass.TOTAL_INCREASING,
             native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
@@ -257,14 +273,207 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
         dxs_id=251658754,
     ),
 
+    # Home consumption Day
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_home_consumption_day",
+            name="Kostal PIKO Home Consumption Day",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+            icon="mdi:power-plug"),
+        dxs_id=251659010,
+    ),
+
+    # Own consumption Day
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_own_consumption_day",
+            name="Kostal PIKO Own Consumption Day",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+            icon="mdi:power-plug"),
+        dxs_id=251659266,
+    ),
+
+    # Own consumption quota Day
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_own_consumption_quota_day",
+            name="Kostal PIKO Own Consumption Quota Day",
+            device_class=None,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=PERCENTAGE,
+            icon="mdi:power-plug"),
+        dxs_id=251659278,
+    ),
+
+    # Own consumption quota Day
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_autarky_day",
+            name="Kostal PIKO Autarky Day",
+            device_class=None,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=PERCENTAGE,
+            icon="mdi:power-plug"),
+        dxs_id=251659279,
+    ),
+
     # Yield Total
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
-            key="kostal_yield_total",
+            key="kostal_piko_yield_total",
             name="Kostal PIKO Yield Total",
             device_class=SensorDeviceClass.ENERGY,
             state_class=SensorStateClass.TOTAL_INCREASING,
             native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
             icon="mdi:power-plug"),
         dxs_id=251658753,
+    ),
+
+    # Home consumption Total
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_home_consumption_total",
+            name="Kostal PIKO Home Consumption Total",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+            icon="mdi:power-plug"),
+        dxs_id=251659009,
+    ),
+
+    # Own consumption Total
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_own_consumption_total",
+            name="Kostal PIKO Own Consumption Total",
+            device_class=SensorDeviceClass.ENERGY,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
+            icon="mdi:power-plug"),
+        dxs_id=251659265,
+    ),
+
+    # Own consumption quota Total
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_own_consumption_quota_total",
+            name="Kostal PIKO Own Consumption Quota Total",
+            device_class=None,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=PERCENTAGE,
+            icon="mdi:power-plug"),
+        dxs_id=251659280,
+    ),
+
+    # Autarky Total
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_autarky_total",
+            name="Kostal PIKO Autarky Total",
+            device_class=None,
+            state_class=SensorStateClass.TOTAL_INCREASING,
+            native_unit_of_measurement=PERCENTAGE,
+            icon="mdi:power-plug"),
+        dxs_id=251659281,
+    ),
+
+    # Inverter state
+    # (0  = off, 1 = idle, 2 = starting, DC too low, 3 = input (MPP), 4 = input limited)
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_inverter_state",
+            name="Kostal PIKO Inverter State",
+            device_class=None,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=None,
+            icon="mdi:power-plug"),
+        dxs_id=16780032,
+    ),
+
+    # Uptime
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_uptime",
+            name="Kostal PIKO Uptime",
+            device_class=None,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=TIME_HOURS,
+            icon="mdi:power-plug"),
+        dxs_id=251658496,
+    ),
+
+    # Current Home consumption solar
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_home_consumption_solar",
+            name="Kostal PIKO Home Consumption Solar",
+            device_class=SensorDeviceClass.POWER,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=POWER_WATT,
+            icon="mdi:power-plug"),
+        dxs_id=83886336,
+    ),
+
+    # Current Home consumption battery
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_home_consumption_battery",
+            name="Kostal PIKO Home Consumption Battery",
+            device_class=SensorDeviceClass.POWER,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=POWER_WATT,
+            icon="mdi:power-plug"),
+        dxs_id=83886592,
+    ),
+
+    # Current Home consumption grid
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_home_consumption_grid",
+            name="Kostal PIKO Home Consumption Grid",
+            device_class=SensorDeviceClass.POWER,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=POWER_WATT,
+            icon="mdi:power-plug"),
+        dxs_id=83886848,
+    ),
+
+    # Current Home consumption phase 1
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_home_consumption_phase_1",
+            name="Kostal PIKO Home Consumption Phase 1",
+            device_class=SensorDeviceClass.POWER,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=POWER_WATT,
+            icon="mdi:power-plug"),
+        dxs_id=83887106,
+    ),
+
+    # Current Home consumption phase 2
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_home_consumption_phase_2",
+            name="Kostal PIKO Home Consumption Phase 2",
+            device_class=SensorDeviceClass.POWER,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=POWER_WATT,
+            icon="mdi:power-plug"),
+        dxs_id=83887362,
+    ),
+
+    # Current Home consumption phase 3
+    KostalPikoSensorEntityDescription(
+        description=SensorEntityDescription(
+            key="kostal_piko_home_consumption_phase_3",
+            name="Kostal PIKO Home Consumption Phase 3",
+            device_class=SensorDeviceClass.POWER,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=POWER_WATT,
+            icon="mdi:power-plug"),
+        dxs_id=83887618,
     ))
