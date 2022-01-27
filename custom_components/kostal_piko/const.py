@@ -1,23 +1,64 @@
-from numbers import Number
+from collections.abc import Callable
+from typing import Any
+
 from homeassistant.components.sensor import (SensorDeviceClass,
                                              SensorEntityDescription,
                                              SensorStateClass)
 
-from homeassistant.const import (ENERGY_KILO_WATT_HOUR, POWER_WATT,
+from homeassistant.const import (ENERGY_KILO_WATT_HOUR, POWER_WATT, POWER_KILO_WATT,
                                  ELECTRIC_POTENTIAL_VOLT, TIME_HOURS,
                                  PERCENTAGE, ELECTRIC_CURRENT_AMPERE,
                                  FREQUENCY_HERTZ)
+
+
+class KostalPikoFormatter():
+    INVERTER_STATES = {
+        0: "Off",
+        1: "Idle",
+        2: "Starting",
+        3: "Input (MPP)",
+        4: "Input (limited)",
+    }
+
+    @staticmethod
+    def format_float(state: str):
+        """Return the given state value as float rounded to two decimal places."""
+        try:
+            return round(float(state), 2)
+        except (TypeError, ValueError):
+            return state
+
+    @staticmethod
+    def format_energy(state: str):
+        """Return the given state value as energy value, scaled to kW or kWh."""
+        try:
+            return round(float(state) / 1000, 1)
+        except (TypeError, ValueError):
+            return state
+
+    @staticmethod
+    def format_inverter_state(state: str):
+        """Return a readable string of the inverter state."""
+        try:
+            value = int(state)
+        except (TypeError, ValueError):
+            return state
+
+        return KostalPikoFormatter.INVERTER_STATES.get(value)
 
 
 class KostalPikoSensorEntityDescription():
     """A class that describes Kostal PIKO PIKO entities."""
 
     description: SensorEntityDescription = None
-    dxs_id: Number = None
+    dxs_id: int = None
+    formatter: Callable[[str], Any] = None
 
-    def __init__(self, description: SensorEntityDescription, dxs_id: Number):
+    def __init__(self, description: SensorEntityDescription, dxs_id: int,
+                 formatter: Callable[[str], Any] = None):
         self.description = description
         self.dxs_id = dxs_id
+        self.formatter = formatter
 
 
 SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
@@ -28,9 +69,10 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             name="Kostal PIKO Total DC Input",
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_WATT,
+            native_unit_of_measurement=POWER_KILO_WATT,
             icon="mdi:solar-panel"),
         dxs_id=33556736,
+        formatter=KostalPikoFormatter.format_energy
     ),
 
     # Current Grid output
@@ -40,9 +82,10 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             name="Kostal PIKO Grid Output Power",
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_WATT,
+            native_unit_of_measurement=POWER_KILO_WATT,
             icon="mdi:solar-power"),
         dxs_id=67109120,
+        formatter=KostalPikoFormatter.format_energy
     ),
 
     # Current self consumption
@@ -52,9 +95,10 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             name="Kostal PIKO Current Self Consumption",
             device_class=SensorDeviceClass.ENERGY,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_WATT,
+            native_unit_of_measurement=POWER_KILO_WATT,
             icon="mdi:power-plug"),
         dxs_id=83888128,
+        formatter=KostalPikoFormatter.format_energy
     ),
 
     # DC Input 1 sensors
@@ -67,6 +111,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
             icon="mdi:power-plug"),
         dxs_id=33555201,
+        formatter=KostalPikoFormatter.format_float
     ),
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
@@ -77,6 +122,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
             icon="mdi:power-plug"),
         dxs_id=33555202,
+        formatter=KostalPikoFormatter.format_float
     ),
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
@@ -87,6 +133,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=33555203,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # DC Input 2 sensors
@@ -99,6 +146,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
             icon="mdi:power-plug"),
         dxs_id=33555457,
+        formatter=KostalPikoFormatter.format_float
     ),
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
@@ -109,6 +157,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
             icon="mdi:power-plug"),
         dxs_id=33555458,
+        formatter=KostalPikoFormatter.format_float
     ),
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
@@ -119,6 +168,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=33555459,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # DC Input 3 sensors
@@ -131,6 +181,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
             icon="mdi:power-plug"),
         dxs_id=33555713,
+        formatter=KostalPikoFormatter.format_float
     ),
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
@@ -141,6 +192,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
             icon="mdi:power-plug"),
         dxs_id=33555714,
+        formatter=KostalPikoFormatter.format_float
     ),
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
@@ -151,6 +203,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=33555715,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Grid frequency
@@ -163,6 +216,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=FREQUENCY_HERTZ,
             icon="mdi:power-plug"),
         dxs_id=67110400,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Phase 1
@@ -175,6 +229,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
             icon="mdi:power-plug"),
         dxs_id=67109377,
+        formatter=KostalPikoFormatter.format_float
     ),
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
@@ -185,6 +240,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
             icon="mdi:power-plug"),
         dxs_id=67109378,
+        formatter=KostalPikoFormatter.format_float
     ),
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
@@ -195,6 +251,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=67109379,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Phase 2
@@ -207,6 +264,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
             icon="mdi:power-plug"),
         dxs_id=67109633,
+        formatter=KostalPikoFormatter.format_float
     ),
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
@@ -217,6 +275,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
             icon="mdi:power-plug"),
         dxs_id=67109634,
+        formatter=KostalPikoFormatter.format_float
     ),
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
@@ -227,6 +286,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=67109635,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Phase 3
@@ -239,6 +299,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ELECTRIC_CURRENT_AMPERE,
             icon="mdi:power-plug"),
         dxs_id=67109889,
+        formatter=KostalPikoFormatter.format_float
     ),
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
@@ -249,6 +310,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ELECTRIC_POTENTIAL_VOLT,
             icon="mdi:power-plug"),
         dxs_id=67109890,
+        formatter=KostalPikoFormatter.format_float
     ),
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
@@ -259,6 +321,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=67109891,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Yield Day
@@ -271,6 +334,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
             icon="mdi:power-plug"),
         dxs_id=251658754,
+        formatter=KostalPikoFormatter.format_energy
     ),
 
     # Home consumption Day
@@ -283,6 +347,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
             icon="mdi:power-plug"),
         dxs_id=251659010,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Own consumption Day
@@ -295,6 +360,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
             icon="mdi:power-plug"),
         dxs_id=251659266,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Own consumption quota Day
@@ -307,6 +373,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=PERCENTAGE,
             icon="mdi:power-plug"),
         dxs_id=251659278,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Own consumption quota Day
@@ -319,6 +386,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=PERCENTAGE,
             icon="mdi:power-plug"),
         dxs_id=251659279,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Yield Total
@@ -331,6 +399,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
             icon="mdi:power-plug"),
         dxs_id=251658753,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Home consumption Total
@@ -343,6 +412,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
             icon="mdi:power-plug"),
         dxs_id=251659009,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Own consumption Total
@@ -355,6 +425,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
             icon="mdi:power-plug"),
         dxs_id=251659265,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Own consumption quota Total
@@ -367,6 +438,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=PERCENTAGE,
             icon="mdi:power-plug"),
         dxs_id=251659280,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Autarky Total
@@ -379,6 +451,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=PERCENTAGE,
             icon="mdi:power-plug"),
         dxs_id=251659281,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Inverter state
@@ -392,6 +465,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=None,
             icon="mdi:power-plug"),
         dxs_id=16780032,
+        formatter=KostalPikoFormatter.format_inverter_state
     ),
 
     # Uptime
@@ -404,6 +478,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=TIME_HOURS,
             icon="mdi:power-plug"),
         dxs_id=251658496,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Current Home consumption solar
@@ -416,6 +491,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=83886336,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Current Home consumption battery
@@ -428,6 +504,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=83886592,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Current Home consumption grid
@@ -440,6 +517,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=83886848,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Current Home consumption phase 1
@@ -452,6 +530,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=83887106,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Current Home consumption phase 2
@@ -464,6 +543,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=83887362,
+        formatter=KostalPikoFormatter.format_float
     ),
 
     # Current Home consumption phase 3
@@ -476,4 +556,5 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=POWER_WATT,
             icon="mdi:power-plug"),
         dxs_id=83887618,
+        formatter=KostalPikoFormatter.format_float
     ))

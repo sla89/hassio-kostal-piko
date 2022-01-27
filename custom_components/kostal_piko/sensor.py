@@ -61,6 +61,7 @@ class KostalPikoSensor(SensorEntity):
 
         self._client = client
         self._dxs_id = description.dxs_id
+        self._formatter = description.formatter
 
         self.update()
 
@@ -71,7 +72,12 @@ class KostalPikoSensor(SensorEntity):
         This is the only method that should fetch new data for Home Assistant.
         """
         try:
-            self._attr_native_value = self._client.get_data(self._dxs_id)
+            raw_value = self._client.get_data(self._dxs_id)
+
+            if self._formatter:
+                raw_value = self._formatter(raw_value)
+
+            self._attr_native_value = raw_value
             self._attr_available = True
         except Exception as e:
             _LOGGER.error(
