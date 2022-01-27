@@ -32,7 +32,7 @@ class KostalPikoFormatter():
     def format_energy(state: str):
         """Return the given state value as energy value, scaled to kW or kWh."""
         try:
-            return round(float(state) / 1000, 1)
+            return round(float(state) / 1000, 2)
         except (TypeError, ValueError):
             return state
 
@@ -347,7 +347,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
             icon="mdi:power-plug"),
         dxs_id=251659010,
-        formatter=KostalPikoFormatter.format_float
+        formatter=KostalPikoFormatter.format_energy
     ),
 
     # Own consumption Day
@@ -360,7 +360,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
             icon="mdi:power-plug"),
         dxs_id=251659266,
-        formatter=KostalPikoFormatter.format_float
+        formatter=KostalPikoFormatter.format_energy
     ),
 
     # Own consumption quota Day
@@ -376,7 +376,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
         formatter=KostalPikoFormatter.format_float
     ),
 
-    # Own consumption quota Day
+    # Autarky Day
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
             key="kostal_piko_autarky_day",
@@ -488,10 +488,10 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             name="Kostal PIKO Home Consumption Solar",
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_WATT,
+            native_unit_of_measurement=POWER_KILO_WATT,
             icon="mdi:power-plug"),
         dxs_id=83886336,
-        formatter=KostalPikoFormatter.format_float
+        formatter=KostalPikoFormatter.format_energy
     ),
 
     # Current Home consumption battery
@@ -501,10 +501,10 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             name="Kostal PIKO Home Consumption Battery",
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_WATT,
+            native_unit_of_measurement=POWER_KILO_WATT,
             icon="mdi:power-plug"),
         dxs_id=83886592,
-        formatter=KostalPikoFormatter.format_float
+        formatter=KostalPikoFormatter.format_energy
     ),
 
     # Current Home consumption grid
@@ -514,10 +514,10 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             name="Kostal PIKO Home Consumption Grid",
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
-            native_unit_of_measurement=POWER_WATT,
+            native_unit_of_measurement=POWER_KILO_WATT,
             icon="mdi:power-plug"),
         dxs_id=83886848,
-        formatter=KostalPikoFormatter.format_float
+        formatter=KostalPikoFormatter.format_energy
     ),
 
     # Current Home consumption phase 1
