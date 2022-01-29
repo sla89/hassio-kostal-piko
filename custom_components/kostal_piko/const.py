@@ -249,7 +249,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=POWER_WATT,
-            icon="mdi:power-plug"),
+            icon="mdi:lightning-bolt"),
         dxs_id=67109379,
         formatter=KostalPikoFormatter.format_float
     ),
@@ -284,7 +284,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=POWER_WATT,
-            icon="mdi:power-plug"),
+            icon="mdi:lightning-bolt"),
         dxs_id=67109635,
         formatter=KostalPikoFormatter.format_float
     ),
@@ -319,7 +319,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=POWER_WATT,
-            icon="mdi:power-plug"),
+            icon="mdi:lightning-bolt"),
         dxs_id=67109891,
         formatter=KostalPikoFormatter.format_float
     ),
@@ -345,7 +345,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             device_class=SensorDeviceClass.ENERGY,
             state_class=SensorStateClass.TOTAL_INCREASING,
             native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
-            icon="mdi:power-plug"),
+            icon="mdi:calendar-today"),
         dxs_id=251659010,
         formatter=KostalPikoFormatter.format_energy
     ),
@@ -358,7 +358,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             device_class=SensorDeviceClass.ENERGY,
             state_class=SensorStateClass.TOTAL_INCREASING,
             native_unit_of_measurement=ENERGY_KILO_WATT_HOUR,
-            icon="mdi:power-plug"),
+            icon="mdi:home-lightning-bolt-outline"),
         dxs_id=251659266,
         formatter=KostalPikoFormatter.format_energy
     ),
@@ -371,7 +371,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             device_class=None,
             state_class=SensorStateClass.TOTAL_INCREASING,
             native_unit_of_measurement=PERCENTAGE,
-            icon="mdi:power-plug"),
+            icon="mdi:calendar-today"),
         dxs_id=251659278,
         formatter=KostalPikoFormatter.format_float
     ),
@@ -384,7 +384,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             device_class=None,
             state_class=SensorStateClass.TOTAL_INCREASING,
             native_unit_of_measurement=PERCENTAGE,
-            icon="mdi:power-plug"),
+            icon="mdi:recycle-variant"),
         dxs_id=251659279,
         formatter=KostalPikoFormatter.format_float
     ),
@@ -476,7 +476,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             device_class=None,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=TIME_HOURS,
-            icon="mdi:power-plug"),
+            icon="mdi:timer-outline"),
         dxs_id=251658496,
         formatter=KostalPikoFormatter.format_float
     ),
@@ -489,7 +489,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=POWER_KILO_WATT,
-            icon="mdi:power-plug"),
+            icon="mdi:solar-power"),
         dxs_id=83886336,
         formatter=KostalPikoFormatter.format_energy
     ),
@@ -502,7 +502,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=POWER_KILO_WATT,
-            icon="mdi:power-plug"),
+            icon="mdi:home-battery"),
         dxs_id=83886592,
         formatter=KostalPikoFormatter.format_energy
     ),
@@ -515,7 +515,7 @@ SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=POWER_KILO_WATT,
-            icon="mdi:power-plug"),
+            icon="mdi:transmission-tower-export"),
         dxs_id=83886848,
         formatter=KostalPikoFormatter.format_energy
     ),
