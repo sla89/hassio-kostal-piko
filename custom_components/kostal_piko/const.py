@@ -62,11 +62,11 @@ class KostalPikoSensorEntityDescription():
 
 
 SENSOR_DESCRIPTIONS: tuple[KostalPikoSensorEntityDescription, ...] = (
-    # Current DC Input total
+    # Current DC Input
     KostalPikoSensorEntityDescription(
         description=SensorEntityDescription(
-            key="kostal_piko_total_dc_input",
-            name="Kostal PIKO Total DC Input",
+            key="kostal_piko_current_dc_input",
+            name="Kostal PIKO Current DC Input",
             device_class=SensorDeviceClass.POWER,
             state_class=SensorStateClass.MEASUREMENT,
             native_unit_of_measurement=POWER_KILO_WATT,
