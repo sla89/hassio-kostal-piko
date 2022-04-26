@@ -23,7 +23,7 @@ Not yet supported
 1. Add to the sensors list in your `configuration.yaml` file (or where ever you specify sensors):
 ```yaml
 # Example configuration.yaml entry
-sensors:
+sensor:
   - platform: kostal_piko
     host: IP_OF_YOUR_INVERTER
 ```
