@@ -2,6 +2,7 @@
   "domain": "kostal_piko",
   "name": "Kostal PIKO Solar Inverter",
   "documentation": "https://github.com/sla89/hassio-kostal-piko",
+  "issue_tracker": "https://github.com/sla89/hassio-kostal-piko",
   "requirements": [],
   "codeowners": ["sla89"],
   "version": "1.00",
