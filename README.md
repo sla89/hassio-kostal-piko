@@ -7,7 +7,8 @@ Thank you very much to https://www.msxfaq.de/sonst/iot/kostal15.htm for providin
 
 For detailled API information see the [API description](docs/api.yaml).
 
-**This is still under development.**
+If you find any bugs or have questions do not hesitate to open a ticket. :-)
+Help for improving is welcome.
 
 ## Installation
 ### HACS
