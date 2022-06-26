@@ -4,12 +4,14 @@ import requests
 
 
 class KostalPikoClient:
-    def __init__(self, host: str):
+    def __init__(self, host: str, username: str, password: str):
         self._host = host
         self._url = "http://" + self._host + "/api/dxs.json?dxsEntries="
+        self.session = requests.Session()
+        self.session.auth = (username, password)
 
     def get_data(self, dxs_id: Number):
-        response = requests.get(url=self._url + str(dxs_id), timeout=10)
+        response = self.session.get(url=self._url + str(dxs_id), timeout=10)
         data = json.loads(response.text)
 
         try:
