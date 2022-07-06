@@ -14,7 +14,7 @@ from homeassistant.components.sensor import (
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
-from homeassistant.const import (CONF_HOST)
+from homeassistant.const import (CONF_HOST, CONF_USERNAME, CONF_PASSWORD)
 
 from homeassistant.util import Throttle
 
@@ -29,6 +29,8 @@ MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=10)
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_HOST): cv.string,
+    vol.Optional(CONF_USERNAME, default='pvserver'): cv.string,
+    vol.Optional(CONF_PASSWORD, default='pvwr'): cv.string,
 })
 
 _LOGGER = logging.getLogger(__name__)
@@ -42,8 +44,10 @@ def setup_platform(
 ) -> None:
     """Set up the Kostal PIKO Inverter platform."""
     host = config[CONF_HOST]
+    username = config[CONF_USERNAME]
+    password = config[CONF_PASSWORD]
     _LOGGER.info(f'Setting up client for Kostal PIKO Inverter {host}...')
-    client = KostalPikoClient(host)
+    client = KostalPikoClient(host, username, password)
     _LOGGER.info('Setting up Kostal PIKO Inverter sensors...')
     sensors = []
     for description in SENSOR_DESCRIPTIONS:
