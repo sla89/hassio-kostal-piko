@@ -1,5 +1,8 @@
 from numbers import Number
 import requests
+import logging
+
+_LOGGER = logging.getLogger('KostalPikoClient')
 
 
 class KostalPikoClient:
@@ -11,6 +14,7 @@ class KostalPikoClient:
 
     def get_data(self, dxs_id: Number):
         response = self.session.get(url=self._url + str(dxs_id), timeout=10)
+        _LOGGER.info(f'Got response {response.text}...')
 
         try:
             data = response.json()
