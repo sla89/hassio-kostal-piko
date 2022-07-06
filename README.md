@@ -16,12 +16,11 @@ Tested with
 |-|-|-|-|-|
 |Piko 12, 15 and 17|06.53|06.17|03.50|0100|
 
-Currently confirmed not to work with
+Confirmed not to work:
 
-|Type|FW version|
-|-|-|
-|Piko 4.2|3.74|
-|Piko 4.2|3.78|
+|Type|FW version|Alternative integration|
+|-|-|-|
+|Piko 4.2|3.78 and earlier|https://github.com/rcasula/kostalpiko-homeassistant|
 
 ## Installation
 ### HACS
