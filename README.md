@@ -10,6 +10,19 @@ For detailled API information see the [API description](docs/api.yaml).
 If you find any bugs or have questions do not hesitate to open a ticket. :-)
 Help for improving is welcome.
 
+## Compatibility
+Tested with
+|Type|UI version|FW version|PAR version|HW version|
+|-|-|-|-|-|
+|Piko 12, 15 and 17|06.53|06.17|03.50|0100|
+
+Currently confirmed not to work with
+
+|Type|FW version|
+|-|-|
+|Piko 4.2|3.74|
+|Piko 4.2|3.78|
+
 ## Installation
 ### HACS
 Not yet supported
