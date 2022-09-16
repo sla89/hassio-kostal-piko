@@ -14,8 +14,7 @@ Help for improving is welcome.
 Tested with
 |Type|UI version|FW version|PAR version|HW version|
 |-|-|-|-|-|
-|Piko 12, 15 and 17|06.53|06.17|03.50|0100|
-|Piko 20 | 06.53 | 6.17 |-|-|
+|Piko 12, 15, 17, 20 |06.53|06.17|03.50|0100|
 
 Confirmed not to work:
 
