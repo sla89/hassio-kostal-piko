@@ -59,11 +59,17 @@ class KostalPikoSensor(SensorEntity):
         """Initialize the sensor."""
         self.entity_description = description.description
 
+        self.entry_id = description.description.key
         self._client = client
         self._dxs_id = description.dxs_id
         self._formatter = description.formatter
 
         self.update()
+
+    @property
+    def unique_id(self) -> str:
+        """Return the unique id of this Sensor Entity."""
+        return f"{self.entry_id}_{self._dxs_id}"
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
     def update(self):
