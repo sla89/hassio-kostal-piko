@@ -21,6 +21,7 @@ Confirmed not to work:
 |Type|FW version|Alternative integration|
 |-|-|-|
 |Piko 4.2|3.78 and earlier|https://github.com/rcasula/kostalpiko-homeassistant|
+|PIKO 3.0-2 MP plus|any|https://gist.github.com/raivisdejus/edbcd33372949aa0bd8b122ca19f7339|
 
 ## Installation
 ### HACS
