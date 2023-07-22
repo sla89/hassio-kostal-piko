@@ -5,7 +5,7 @@ to get the same data that are displayed on the web interface.
 
 Thank you very much to https://www.msxfaq.de/sonst/iot/kostal15.htm for providing all the necessary information.
 
-For detailled API information see the [API description](docs/api.yaml).
+For detailed API information see the [API description](docs/api.yaml).
 
 If you find any bugs or have questions do not hesitate to open a ticket. :-)
 Help for improving is welcome.
