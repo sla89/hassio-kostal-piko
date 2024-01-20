@@ -1,7 +1,7 @@
 # Main - not released yet
 
 # V1.20
-* Fixed usage of deprecated unit to be compatible to HA Core 2025.1.
+* Fixed usage of deprecated unit to be compatible to HA Core 2025.1. This breaks the compatibility to previous versions!
 
 # V1.10
 * Fix core incompatibility: Issue #6
