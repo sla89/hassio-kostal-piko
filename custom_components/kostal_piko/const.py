@@ -7,6 +7,7 @@ from homeassistant.components.sensor import (SensorDeviceClass,
 
 from homeassistant.const import (UnitOfPower,
                                  UnitOfElectricPotential,
+                                 UnitOfElectricCurrent,
                                  UnitOfTime,
                                  UnitOfFrequency,
                                  PERCENTAGE)
