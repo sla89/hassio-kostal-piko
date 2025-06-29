@@ -10,6 +10,9 @@ For detailed API information see the [API description](docs/api.yaml).
 If you find any bugs or have questions do not hesitate to open a ticket. :-)
 Help for improving is welcome.
 
+## Other integrations
+Maybe you want to take a look at this integration first as it also supports HACS: https://github.com/scheidtdav/homeassistant-kostal-piko
+
 ## Compatibility
 Tested with
 |Type|UI version|FW version|PAR version|HW version|
